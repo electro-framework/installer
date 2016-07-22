@@ -1,0 +1,23 @@
+{
+  "name": "electro/installer",
+  "description": "A command line tool to create new, blank, Electro framework projects",
+  "license": "MIT",
+  "homepage": "https://github.com/electro-framework/installer",
+  "authors": [
+    {
+      "name": "Impactwave",
+      "email": "impactwave@impactwave.com",
+      "homepage": "http://impactwave.com"
+    },
+    {
+      "name": "Cláudio Silva",
+      "email": "claudio.silva@impactwave.com"
+    }
+  ],
+  "require": {
+    "hirak/prestissimo": "dev-master"
+  },
+  "bin": [
+    "bin/electro"
+  ]
+}
