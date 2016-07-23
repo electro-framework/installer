@@ -1,6 +1,6 @@
 # electro installer
 
-> A command line tool to create new, blank, *Electro framework* projects
+> A command line tool to create new *Electro framework* projects
 
 ## Installation
 
