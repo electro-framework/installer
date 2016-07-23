@@ -27,19 +27,20 @@ fi
 syntax()
 {
   printf "
-${COMMENT}USAGE$C
+${B}SYNTAX$C
     ${B}electro$C ${U}command$C [${U}arguments$C] [${U}options$C]
 
-${COMMENT}COMMANDS$C
+${B}COMMAND$C
     ${HILIGHT}${B}create$C  - Creates a new, blank project.
 
-        ${B}USAGE$C
+        ${B}SYNTAX$C
             ${B}electro create$C ${U}project name$C [${B}--unstable$C] [${B}--framework-dev$C] [${U}other Composer options$C]
 
         ${B}ARGUMENTS$C
             ${U}project name$C     A relative (or absolute) path to the folder that will be created for the project.
                              If it's a simple name, a folder with that name will be created on the current directory.
 
+        ${B}OPTIONS$C
             ${B}--unstable$C       Installs the latest development versions of all packages.
                              Use this if you want the bleeding edge features. Warning: your project MAY BREAK!
 
@@ -47,6 +48,7 @@ ${COMMENT}COMMANDS$C
                              Installs all framework-related packages from source, to allow committing changes to their repos.
                              3rd-party packages are still installed in 'distribution' mode.
 
+${B}COMMAND$C
     ${HILIGHT}${B}self-update$C - Updates the tool to the latest version.
 
 "
@@ -114,7 +116,7 @@ ${ERROR}Sorry, this is not implemented yet.$C
     ;;
   "--help"|"")
   printf "
-${COMMENT}NAME$C
+${B}NAME$C
     ${B}electro$C -- command line tool to create new ${INFO}electro framework$C projects
 "
     syntax
