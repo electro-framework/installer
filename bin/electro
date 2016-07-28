@@ -107,7 +107,7 @@ if [ -z "$prefer" ]; then
 fi
 echo "...
 "
-    composer create-project -s $stability --no-progress --profile $prefer electro/electro $name "$@"
+    composer create-project -s $stability $prefer electro/electro $name "$@"
     ;;
   "self-update")
     echo -e "
