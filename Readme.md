@@ -9,13 +9,11 @@
 - Bash >= v3
 - Composer
 
-#### Install Composer
+#### Installing Composer
 
 You need [Composer](http://getcomposer.org) both to install this tool and to be able to create *Electro framework* projects. So, before proceeding, you will need to make sure you have Composer installed on your machine.
 
-If you already have Composer, or after installing it (see the respective website), you may proceed with the tool installation, which is quite simple and short.
-
-#### Install the tool
+#### Installing the tool
 
 Open a terminal window and run the following command:
 
@@ -31,7 +29,7 @@ This will install the tool globally, so you may access it from the terminal on a
 >```bash
 >PATH=".composer/vendor/bin:$PATH"
 
-##### Improving Composer
+##### Speeding up Composer
 
 The installation process will also install [Prestissimo](https://github.com/hirak/prestissimo) globally, which is a Composer plugin that speeds up Composer installations and updates.
 

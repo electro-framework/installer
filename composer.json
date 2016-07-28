@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "hirak/prestissimo": "dev-master"
+    "hirak/prestissimo": "^0.3.4"
   },
   "bin": [
     "bin/electro"
