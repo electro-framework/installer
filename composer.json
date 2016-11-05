@@ -1,5 +1,6 @@
 {
   "name": "electro/installer",
+  "version": "1.1.0",
   "description": "A command line tool to create new Electro framework projects",
   "license": "MIT",
   "homepage": "https://github.com/electro-framework/installer",

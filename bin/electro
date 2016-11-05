@@ -16,11 +16,13 @@ if test -t 1; then
     C='\033[0m' # Clear (no color)
   fi
 
+  version=$(cat "$(dirname "$0")/../electro/installer/composer.json" | grep -e \"version\" | grep -Eo "[0-9.]+")
+
   printf "$INFO
   ┌──┐ │ ┌──┐┌──┐╶┼╴┌──┐┌──┐
   │──┘ │ │──┘│    │ │   │  │
   └──┘ └╴└──┘└──┘ └╴╵   └──┘
-              ${C}Installer v1.0
+             ${C}Installer $version
 "
 fi
 
