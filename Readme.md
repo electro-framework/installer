@@ -25,9 +25,9 @@ This will install the tool globally, so you may access it from the terminal on a
 
 > Make sure you have the path to the global Composer-installed binaries configured on your `$PATH` environment variable, otherwise you'll not be able to run the `electro` command after installation.
 >
-> You may set the `$PATH` on several places, including the `~/.profile` file. You should have a line similar to this one: 
+> You may set the `$PATH` on several places, such as the `~/.profile` or `~/.bash_profile` files. You should have a line similar to this one: 
 >```bash
->PATH=".composer/vendor/bin:$PATH"
+>PATH="~/.composer/vendor/bin:$PATH"
 
 ##### Speeding up Composer
 
