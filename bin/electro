@@ -107,12 +107,11 @@ if [ -z "$prefer" ]; then
 fi
 echo "...
 "
-    composer create-project -s $stability $prefer electro/electro $name "$@"
+    composer create-project -s $stability $prefer electro/electro $name "$@" || exit $?
+    cd $name
     ;;
   "self-update")
-    echo -e "
-${ERROR}Sorry, this is not implemented yet.$C
-"
+    composer global update electro/installer
     ;;
   "--help"|"")
   printf "
