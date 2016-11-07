@@ -110,7 +110,9 @@ fi
 echo "...
 "
     composer create-project -s $stability $prefer electro/electro $name "$@" || exit $?
-    cd $name
+    echo "
+If you need to run additional commands on this project, don't forget to enter its directory by typing: cd $name
+"
     ;;
   "self-update")
     composer global update electro/installer
