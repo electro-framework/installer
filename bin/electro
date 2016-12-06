@@ -114,17 +114,27 @@ echo "...
     composer create-project --no-install -s $stability --no-scripts --keep-vcs electro/electro $name $version "$@" || exit $?
     cd $name
     rm -Rf .git || exit $?
+
+    # Set minimum stability
     sed -i -e "$(echo 's/"minimum-stability": ".*"/"minimum-stability": "'$stability'"/')" composer.json
+
+    # Set stability preference
     sed -i -e "$(echo 's/"prefer-stable": .*,/"prefer-stable": '$stabbool',/')" composer.json
+
+    # Set installation type: source/dist
     if [ "$prefer" != "dist" ]; then
       input="$(cat composer.json)"; find='"preferred-install": "dist"'; replace='"preferred-install": '$prefer
       echo "$(echo "${input//$find/$replace}")" > composer.json
     fi
+
     composer install || exit $?
     workman init
-    echo "
-If you need to run additional commands on this project, don't forget to enter its directory by typing: cd ${HILIGHT}$name$C
-"
+    printf "%s
+
+If you need to run additional commands on this project, don't forget to enter its directory first
+by running this command: ${HILIGHT}cd $name$C
+
+" "-------------------------------------------------------------------------------------------------"
     ;;
   "self-update")
     composer global update electro/installer
