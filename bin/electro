@@ -19,10 +19,10 @@ if test -t 1; then
   version=$(cat "$(dirname "$0")/../electro/installer/composer.json" | grep -e \"version\" | grep -Eo "[0-9.]+")
 
   printf "$INFO
-  ┌──┐ │ ┌──┐┌──┐╶┼╴┌──┐┌──┐
-  │──┘ │ │──┘│    │ │   │  │
-  └──┘ └╴└──┘└──┘ └╴╵   └──┘
-             ${C}Installer $version
+  ┌──┐ │  ┌──┐┌──╴╶┼─ ┌──╴┌──┐
+  ├──┘ │  ├──┘│    │  │   │  │
+  └──╴ └─ └──╴└──╴ └─ ╵   └──┘
+              ${C}Installer $version
 "
 fi
 
@@ -44,7 +44,8 @@ ${B}COMMAND$C
 
         ${B}OPTIONS$C
             ${B}--unstable$C       Installs the latest development versions of all packages.
-                             Use this if you want the bleeding edge features. Warning: your project MAY BREAK!
+                             Use this if you want the bleeding edge features. Warning: your project MAY BREAK temporarily
+                             whenever unstable/unfinished changes to the framework are published.
 
             ${B}--framework-dev$C  This is only for framework developers.
                              Installs all framework-related packages from source, to allow committing changes to their repos.
@@ -69,8 +70,10 @@ shift
 case "$command" in
 
   "create")
-    prefer="--prefer-dist"
+    prefer="dist"
+    stabbool="true"
     stability="stable"
+    version=""
 
     if [[ -n "$1" && ! "$1" =~ ^-- ]]; then
       name="$1"
@@ -82,10 +85,18 @@ case "$command" in
     while true; do
       case "$1" in
         "--framework-dev")
-          prefer=""
+          prefer='{
+      "electro/*": "source",
+      "electro-modules/*": "source",
+      "selenia/*": "source",
+      "php-kit/*": "source",
+      "*": "dist"
+    }'
           ;;
         "--unstable")
           stability="dev"
+          stabbool="false"
+          version="dev-master"
           ;;
         *)
           break
@@ -93,25 +104,26 @@ case "$command" in
       shift
     done
 
-#------------------------------------------------------------------------------------
-    if [ "$stability" == "stable" ]; then
-      printf "
-${COMMENT}Note: until the framework reaches v1.0, stability mode is forced to --unstable.${C}
-"
-      stability="dev"
-    fi
-#------------------------------------------------------------------------------------
-
     printf "
-Creating project ${HILIGHT}$name${C} in ${HILIGHT}$stability${C} mode"
-if [ -z "$prefer" ]; then
-  printf ", optimized for framework development"
+Creating project ${HILIGHT}$name$C in ${HILIGHT}$stability$C mode"
+if [ "$prefer" != "dist" ]; then
+  printf ", set up for framework development"
 fi
 echo "...
 "
-    composer create-project -s $stability $prefer electro/electro $name "$@" || exit $?
+    composer create-project --no-install -s $stability --no-scripts --keep-vcs electro/electro $name $version "$@" || exit $?
+    cd $name
+    rm -Rf .git || exit $?
+    sed -i -e "$(echo 's/"minimum-stability": ".*"/"minimum-stability": "'$stability'"/')" composer.json
+    sed -i -e "$(echo 's/"prefer-stable": .*,/"prefer-stable": '$stabbool',/')" composer.json
+    if [ "$prefer" != "dist" ]; then
+      input="$(cat composer.json)"; find='"preferred-install": "dist"'; replace='"preferred-install": '$prefer
+      echo "$(echo "${input//$find/$replace}")" > composer.json
+    fi
+    composer install || exit $?
+    workman init
     echo "
-If you need to run additional commands on this project, don't forget to enter its directory by typing: cd $name
+If you need to run additional commands on this project, don't forget to enter its directory by typing: cd ${HILIGHT}$name$C
 "
     ;;
   "self-update")
