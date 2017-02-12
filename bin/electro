@@ -32,18 +32,20 @@ syntax()
 ${B}SYNTAX$C
     ${B}electro$C ${U}command$C [${U}arguments$C] [${U}options$C]
 
-${B}COMMAND$C
+${B}COMMANDS$C
     ${HILIGHT}${B}create$C  - Creates a new, blank project.
 
         ${B}SYNTAX$C
-            ${B}electro create$C ${U}project name$C [${B}--unstable$C] [${B}--framework-dev$C] [${U}other Composer options$C]
+            ${B}electro create$C ${U}project name$C [${B}--version$C version] [${B}--unstable$C] [${B}--framework-dev$C] [${U}other Composer options$C]
 
         ${B}ARGUMENTS$C
             ${U}project name$C     A relative (or absolute) path to the folder that will be created for the project.
                              If it's a simple name, a folder with that name will be created on the current directory.
 
         ${B}OPTIONS$C
-            ${B}--unstable$C       Installs the latest development versions of all packages.
+            ${B}--version$C        Installs the specified framework version (ex: 1.0.0)
+
+            ${B}--unstable$C       Installs the latest development versions of all framework packages.
                              Use this if you want the bleeding edge features. Warning: your project MAY BREAK temporarily
                              whenever unstable/unfinished changes to the framework are published.
 
@@ -51,8 +53,9 @@ ${B}COMMAND$C
                              Installs all framework-related packages from source, to allow committing changes to their repos.
                              3rd-party packages are still installed in 'distribution' mode.
 
-${B}COMMAND$C
-    ${HILIGHT}${B}self-update$C - Updates the tool to the latest version.
+    ${HILIGHT}${B}versions$C  - Lists all available framework versions.
+
+    ${HILIGHT}${B}self-update$C - Updates this tool to the latest version.
 
 "
   exit 1
@@ -74,6 +77,7 @@ case "$command" in
     stabbool="true"
     stability="stable"
     version=""
+    mode="distribution"
 
     if [[ -n "$1" && ! "$1" =~ ^-- ]]; then
       name="$1"
@@ -92,11 +96,15 @@ case "$command" in
       "php-kit/*": "source",
       "*": "dist"
     }'
+          mode="framework development"
           ;;
         "--unstable")
           stability="dev"
-          stabbool="false"
           version="dev-master"
+          ;;
+        "--version")
+          shift
+          version="$1"
           ;;
         *)
           break
@@ -105,11 +113,11 @@ case "$command" in
     done
 
     printf "
-Creating project ${HILIGHT}$name$C in ${HILIGHT}$stability$C mode"
-if [ "$prefer" != "dist" ]; then
-  printf ", set up for framework development"
-fi
-echo "...
+Creating project:   ${HILIGHT}$name$C
+         version:   ${HILIGHT}${version:-latest}$C
+         stability: ${HILIGHT}$stability$C
+         mode:      ${HILIGHT}$mode$C
+
 "
     composer create-project --no-install -s $stability --no-scripts --keep-vcs electro/electro $name $version "$@" || exit $?
     cd $name
@@ -127,6 +135,9 @@ echo "...
       echo "$(echo "${input//$find/$replace}")" > composer.json
     fi
 
+    # Create Composer config template
+    cp composer.json composer.root.json
+
     composer install || exit $?
     workman init
     printf "%s
@@ -135,6 +146,13 @@ If you need to run additional commands on this project, don't forget to enter it
 by running this command: ${HILIGHT}cd $name$C
 
 " "-------------------------------------------------------------------------------------------------"
+    ;;
+  "versions")
+    echo -e "
+${B}Available versions:$C
+"
+    git ls-remote --tags https://github.com/electro-framework/electro | grep -o '[0-9]*\.[0-9]*\.[0-9]*$'
+    echo
     ;;
   "self-update")
     composer global update electro/installer
