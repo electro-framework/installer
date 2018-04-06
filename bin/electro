@@ -119,7 +119,7 @@ Creating project:   ${HILIGHT}$name$C
          mode:      ${HILIGHT}$mode$C
 
 "
-    composer create-project --no-install -s $stability --no-scripts --keep-vcs electro/electro $name $version "$@" || exit $?
+    composer create-project --no-install -s $stability --keep-vcs electro/electro $name $version "$@" || exit $?
     cd $name
     rm -Rf .git || exit $?
 
@@ -135,7 +135,7 @@ Creating project:   ${HILIGHT}$name$C
       echo "$(echo "${input//$find/$replace}")" > composer.json
     fi
 
-    # Create Composer config template
+    # Update Composer config template
     cp composer.json composer.root.json
 
     composer install || exit $?
