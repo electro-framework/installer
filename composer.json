@@ -1,6 +1,6 @@
 {
   "name": "electro/installer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A command line tool to create new Electro framework projects",
   "license": "MIT",
   "homepage": "https://github.com/electro-framework/installer",
@@ -15,9 +15,6 @@
       "email": "claudio.silva@impactwave.com"
     }
   ],
-  "require": {
-    "hirak/prestissimo": "^0.3.4"
-  },
   "bin": [
     "bin/electro"
   ]

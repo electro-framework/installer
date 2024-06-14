@@ -29,14 +29,6 @@ This will install the tool globally, so you may access it from the terminal on a
 >```bash
 >PATH="~/.composer/vendor/bin:$PATH"
 
-##### Speeding up Composer
-
-The installation process will also install [Prestissimo](https://github.com/hirak/prestissimo) globally, which is a Composer plugin that speeds up Composer installations and updates.
-
-This will reduce the time it takes to create a new **electro** project using this tool.
-
-> The plugin is also useful beyond the use case of this tool; it will improve Composer's performance globally, so you'll see its benefiits with any other project on your machine.
-
 ## Usage
 
 On the parent folder, where the new project folder will be created, issue the **electro create *project-name*** command on your terminal.
