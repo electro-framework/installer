@@ -36,7 +36,7 @@ On the parent folder, where the new project folder will be created, issue the **
 For example, this will install a working Electro prototype project into the `your-project-name` folder:
 
 ```bash
-electro create your-project-name
+electro create your-project-name --unstable
 ```
 
 There are some additional command-line options that you may specify. You can find out more about them by typing:
